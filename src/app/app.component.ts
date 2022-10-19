@@ -7,33 +7,17 @@ import {MyTableConfig} from "./interface/MyTableConfig";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
+
   title = 'generics2';
 
-  myButtonConfigAggiungi!: MyButtonConfig;
   myTableConfig!: MyTableConfig;
+  data!: any[];
+
 
   ngOnInit(): void {
-    this.myButtonConfigAggiungi= {
-      text: 'Aggiungi',
-      customCssClass: 'btn btn-success',
-      icon: 'assignment'
-    };
-    this.myTableConfig= {
-      headers: [
-        {key: 'nome', label: 'Nome'},
-        {key: 'cognome', label: 'Cognome'},
-        {key: 'username', label: 'Username'},
-        {key: 'email', label: 'Email'},
-        {key: 'modifica', label: ''},
-        {key: 'elimina', label: ''},
-      ],
-      actions: [],
-      order: {defaultColumn: '', orderType: ''},
-      search: {columns: []},
-      pagination: {itemPerPage: 5, itemPerPageOptions: []}
 
-    }
+
   }
 
 }

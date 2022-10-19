@@ -9,6 +9,7 @@ import {MyButtonConfig} from "../interface/MyButtonConfig";
 export class MyButtonComponent implements OnInit {
 
   @Input() myConfig!: MyButtonConfig;
+
   constructor() { }
 
   ngOnInit(): void {
