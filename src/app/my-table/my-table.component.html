@@ -1,8 +1,9 @@
 <label for="select"><h5>Ricerca per: </h5></label>
-<select id="select">
-  <option *ngFor="let column of myConfig.search.columns" [value]="column">{{column}}</option>
+<select id="select" [(ngModel)]="filterColumn" (change)="filter=''; filteredData= data">
+  <option *ngFor="let column of myConfig.search.columns">{{column}}</option>
 </select>
-<input type="text" placeholder="cerca">
+<input type="text" placeholder="cerca" [(ngModel)]="filter"
+       (input)="searchByColumnAndFilter(filterColumn.toLowerCase(), filter)">
 
 <table border="3" style="margin: 5px; text-align: center">
   <th *ngFor="let header of myConfig.headers" (click)="order(header.key)">
@@ -14,7 +15,7 @@
       keyboard_arrow_down
     </mat-icon>
   </th>
-  <tr *ngFor="let item of data">
+  <tr *ngFor="let item of filteredData">
     <td *ngFor="let header of myConfig.headers">{{item[header.key]}}</td>
   </tr>
 </table>

@@ -11,13 +11,16 @@ export class MyTableComponent implements OnInit {
 
   @Input() myConfig!: MyTableConfig;
   @Input() data!: any[];
+  filteredData!: any[];
+  filter!: string;
+  filterColumn!: string;
 
 
   constructor() {
   }
 
   ngOnInit(): void {
-
+    this.filteredData = this.data;
   }
 
   order(column: string): void {
@@ -49,6 +52,14 @@ export class MyTableComponent implements OnInit {
       }
       return 0;
     });
+  }
+
+  searchByColumnAndFilter(column: string, filter: string): void {
+    if ((column !== '') && (filter !== '')) {
+      this.filteredData = this.data.filter(item => item[column].includes(filter));
+    } else {
+      this.filteredData = this.data;
+    }
   }
 
 }

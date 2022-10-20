@@ -8,6 +8,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { MyTableComponent } from './my-table/my-table.component';
 import { MyHeaderComponent } from './my-header/my-header.component';
 
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { MyHeaderComponent } from './my-header/my-header.component';
   ],
   imports: [
     BrowserModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
