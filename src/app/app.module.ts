@@ -9,6 +9,9 @@ import { MyTableComponent } from './my-table/my-table.component';
 import { MyHeaderComponent } from './my-header/my-header.component';
 
 import { FormsModule } from '@angular/forms';
+import { FilterSearchPipe } from './pipe/filter-search.pipe';
+import { PaginationPipe } from './pipe/pagination.pipe';
+import { OrderPipe } from './pipe/order.pipe';
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     MyButtonComponent,
     MyTableComponent,
-    MyHeaderComponent
+    MyHeaderComponent,
+    FilterSearchPipe,
+    PaginationPipe,
+    OrderPipe
   ],
   imports: [
     BrowserModule,

@@ -11,55 +11,27 @@ export class MyTableComponent implements OnInit {
 
   @Input() myConfig!: MyTableConfig;
   @Input() data!: any[];
-  filteredData!: any[];
   filter!: string;
   filterColumn!: string;
+  currentPage!: number;
 
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.filteredData = this.data;
+    this.filter = '';
+    this.filterColumn = '';
+    this.currentPage = 1;
   }
 
-  order(column: string): void {
-    this.myConfig.order.defaultColumn = column;
-    let order = this.myConfig.order.orderType;
 
-    if (order === 'DESC') {
-      this.myConfig.order.orderType = 'ASC';
-    } else {
-      this.myConfig.order.orderType = 'DESC';
-    }
-    this.data.sort(function (a, b) {
-      let x = a[column];
-      let y = b[column];
-      if (order === 'DESC') {
-        if (x < y) {
-          return -1;
-        }
-        if (x > y) {
-          return 1;
-        }
-      } else {
-        if (x < y) {
-          return 1;
-        }
-        if (x > y) {
-          return -1;
-        }
-      }
-      return 0;
-    });
-  }
+  indexSlidingWindow(index: number): boolean {
 
-  searchByColumnAndFilter(column: string, filter: string): void {
-    if ((column !== '') && (filter !== '')) {
-      this.filteredData = this.data.filter(item => item[column].includes(filter));
-    } else {
-      this.filteredData = this.data;
+    if (this.currentPage < 3) {
+      return index < 5;
     }
+    return (index > this.currentPage - 3) && (index < this.currentPage + 3);
   }
 
 }

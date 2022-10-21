@@ -1,12 +1,17 @@
-<label for="select"><h5>Ricerca per: </h5></label>
-<select id="select" [(ngModel)]="filterColumn" (change)="filter=''; filteredData= data">
+<label for="select"><h6>Ricerca per: </h6></label>
+<select id="select" [(ngModel)]="filterColumn" (change)="filter=''">
   <option *ngFor="let column of myConfig.search.columns">{{column}}</option>
 </select>
-<input type="text" placeholder="cerca" [(ngModel)]="filter"
-       (input)="searchByColumnAndFilter(filterColumn.toLowerCase(), filter)">
+<input type="text" placeholder="cerca" [(ngModel)]="filter">
+
+<label for="itemsPerPage"><h6>Numero elementi per pagina:</h6></label>
+<select id="itemsPerPage" [(ngModel)]="myConfig.pagination.itemPerPage" (change)="currentPage = 1">
+  <option *ngFor="let option of myConfig.pagination.itemPerPageOptions">{{option}}</option>
+</select>
 
 <table border="3" style="margin: 5px; text-align: center">
-  <th *ngFor="let header of myConfig.headers" (click)="order(header.key)">
+  <th *ngFor="let header of myConfig.headers" (click)="myConfig.order.defaultColumn = header.label;
+                                                          myConfig.order.orderType = (myConfig.order.orderType === 'ASC')? 'DESC':'ASC'">
     {{header.label}}
     <mat-icon *ngIf="(myConfig.order.orderType === 'ASC') && (header.key === myConfig.order.defaultColumn)">
       keyboard_arrow_up
@@ -15,7 +20,31 @@
       keyboard_arrow_down
     </mat-icon>
   </th>
-  <tr *ngFor="let item of filteredData">
+  <tr
+    *ngFor="let item of ([filterColumn, filter, currentPage, myConfig.pagination.itemPerPage, myConfig.order.defaultColumn, myConfig.order.orderType] | filterSearch:data | pagination:currentPage:myConfig.pagination.itemPerPage | order:myConfig.order.defaultColumn:myConfig.order.orderType)">
     <td *ngFor="let header of myConfig.headers">{{item[header.key]}}</td>
   </tr>
 </table>
+
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link"
+                             (click)="currentPage = (currentPage > 1)? currentPage - 1 : currentPage">Previous</a>
+    </li>
+    <ng-container
+      *ngFor="let x of [].constructor(([filterColumn, filter, currentPage, myConfig.pagination.itemPerPage] | filterSearch:data | pagination:currentPage:myConfig.pagination.itemPerPage)[1]); let i = index">
+      <li class="page-item" *ngIf="indexSlidingWindow(i)"><a class="page-link"
+                                                             (click)="currentPage = i+1">{{i + 1}}</a>
+      </li>
+    </ng-container>
+    <li class="page-item">
+      <ng-container
+        *ngIf="currentPage < ([filterColumn, filter, currentPage, myConfig.pagination.itemPerPage] | filterSearch:data | pagination:currentPage:myConfig.pagination.itemPerPage)[1]">
+        <a class="page-link"
+           (click)="currentPage = currentPage + 1">Next</a>
+      </ng-container>
+    </li>
+  </ul>
+</nav>
+
